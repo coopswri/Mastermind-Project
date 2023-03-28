@@ -1,3 +1,4 @@
+#the algorithm for a merge sort which takes in an array and orders it
 def MergeSort(array):
   if 1 < len(array):
     midpoint = len(array)//2

@@ -2,11 +2,6 @@ import pygame, sys, time
 from subprocess import call
 from StoringData import LoginOrSignup
 
-screen = pygame.display.set_mode((500, 500), pygame.RESIZABLE)
-pygame.display.set_caption(" MainMenu")
-icon_for_screen = pygame.image.load("Assets\Images\Icon\Icon.png")
-pygame.display.set_icon(icon_for_screen)
-
 class MenuButton():
     def __init__(self, x, y, image, function, scale):
         self.x = x

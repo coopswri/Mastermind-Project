@@ -2,6 +2,8 @@ import pygame, sys, time
 from subprocess import call
 from StoringData import LoginOrSignup
 
+screen = pygame.display.set_mode((500, 500), pygame.RESIZABLE)
+
 class MenuButton():
     def __init__(self, x, y, image, function, scale):
         self.x = x

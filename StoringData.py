@@ -83,4 +83,3 @@ def ScoreChecker(username):
     userID = cursor.fetchall()[0][0]
     cursor.execute("SELECT first_score, average_score FROM player_scores WHERE userID = ?", (userID,))
     return cursor.fetchall()
-

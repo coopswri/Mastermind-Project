@@ -1,5 +1,4 @@
-import pygame, sys
-from subprocess import call
+import pygame
 from MenuButton import MenuButton
 
 

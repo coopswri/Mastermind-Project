@@ -1,19 +1,4 @@
-#Notes
-
-#To-do list:
-#add SQL to interact with database from StoringData.py (done this except for storing LoginOrSignup() but thats being hella dumb)
-#hash password
-#Tutorial screen, possibly YT video
-#Get people to test for bugs
-#Keep To-do list up to date and make sure Notes is used whenever you get an idea that could be implemented
-#read through all to make sure there are no mistakes such as things only for development
-#instead of the list of colours at end what about circles to represent it
-
-
-
-
 import pygame, random, math, time, hashlib
-from subprocess import call
 from StoringData import CheckingName, ScoreChecker
 from MenuButton import MenuButton
 
@@ -131,7 +116,7 @@ class CodeHandler:
     def DisplayObjects(self):
         for item in self.button_list:
             item.DrawSideButton()
-        check.DrawCheckButton()
+        check_button.DrawCheckButton()
         for item in self.board:
             item.DrawMovedButton()
         for item in self.pin_list:
@@ -183,17 +168,17 @@ class MovedButton():
 
         self.colour = colour
 
-        self.x = self.XCoordinateOnBoard()
-        self.y = self.YCoordinateOnBoard()
+        self.x = self.__XCoordinateOnBoard()
+        self.y = self.__YCoordinateOnBoard()
     
     #function to find the x coordinate for the button
-    def XCoordinateOnBoard(self):
+    def __XCoordinateOnBoard(self):
         index = len(Mastermind.board)
         return math.floor(50 + (index * 85))
     
     #function to find the y coordinate for the button
-    def YCoordinateOnBoard(self):
-        return math.floor(60 + ((Mastermind.row - 1) * 100)) #this may cause problems check later, due to row changing
+    def __YCoordinateOnBoard(self):
+        return math.floor(60 + ((Mastermind.row - 1) * 100)) 
 
     #function to add the board to a list of all the buttons on the board
     def DrawMovedButton(self):
@@ -227,13 +212,13 @@ class CheckButton():
     def DrawCheckButton(self):
         pygame.draw.circle(screen, checkbutton, (self.x + (1 / 2 * self.x), self.y + (1 / 2 * self.y)), 40)
         pygame.draw.circle(screen, (0, 0, 0), (self.x + (1 / 2 * self.x), self.y + (1 / 2 * self.y)), 41, 2)
-        self.DisplayCheckMark()
+        self.__DisplayCheckMark()
         
 
     #function to draw the check mark onto the button
-    def DisplayCheckMark(self):
+    def __DisplayCheckMark(self):
         tick_font = pygame.font.Font("Assets\Fonts\seguisym.ttf", 50)
-        text_surface = tick_font.render(u'\u2713', True, (255, 254, 255))
+        text_surface = tick_font.render(u'\u2713', True, (255, 253, 255))
         screen.blit(text_surface, (895, 880))
 
     #function which checks how many of each colour pin the guess deserves
@@ -263,7 +248,8 @@ class CheckButton():
               copy_of_code.remove(item) 
 
         for item in Mastermind.pin_list:
-            item.Coordinates()
+            item.CoordinateFinder()
+            item.DrawPin()
 
         code_correctness = 0
         for item in Mastermind.pin_list:
@@ -296,9 +282,9 @@ class Pin():
         self.colour_rgb = colour_rgb
 
 
-    def Coordinates(self):
+    def CoordinateFinder(self):
         self.index = Mastermind.pin_list.index(self)
-        self.y = self.PositionOnPinSide(self.index)
+        self.y = self.__PositionOnPinSide(self.index)
         
         if (self.index + 1) > math.ceil(Mastermind.length_of_code / 2):
           self.index = self.index - math.ceil(Mastermind.length_of_code / 2)
@@ -312,7 +298,7 @@ class Pin():
         pygame.draw.circle(screen, (0, 0, 0), (self.x, self.y), 11, 2)
 
 
-    def PositionOnPinSide(self, index):
+    def __PositionOnPinSide(self, index):
         if (index + 1) <= math.ceil(Mastermind.length_of_code / 2): 
             return int(40 + (100 * (Mastermind.row - 1)))
         else:
@@ -332,7 +318,7 @@ button_list = [
     SideButton((255, 128, 170), "pink"),
     SideButton((102, 68, 0), "brown")
     ]
-check = CheckButton()
+check_button = CheckButton()
 
 
 def ShowText(length_of_code_message, repeating_colours_message):
@@ -481,8 +467,8 @@ def LoginMenu(username_colour, username_rect, username_text, password_colour, pa
         function = "login"
         password_text = HashPassword(password_text)
 
-    Login_button = MenuButton(400, 600, login_image, function, 2)
-    if Login_button.DrawMenuButton(username_text, password_text, Score()) == True:
+    login_button = MenuButton(400, 600, login_image, function, 2)
+    if login_button.DrawMenuButton(username_text, password_text, Score()) == True:
 
         score_list = ScoreChecker(username_text)
         high_score = list(score_list)[0][0]
@@ -522,9 +508,10 @@ while game_loop_running:
             if event.type == pygame.MOUSEBUTTONDOWN and is_draw_on == True:
                 if len(Mastermind.board) == int(length_of_code):
                     click = screen.get_at(pygame.mouse.get_pos()) == (25, 77, 0)
+                    click_2 = screen.get_at(pygame.mouse.get_pos()) == (255, 253, 255)
 
-                    if click == True:
-                        check.RowChecker()
+                    if click == True or click_2 == True:
+                        check_button.RowChecker()
                 
                 elif len(Mastermind.board) < int(length_of_code):
                     for item in rgb_colours:

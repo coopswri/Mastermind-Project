@@ -33,9 +33,8 @@ class MenuButton():
                     pass
                 elif self.function == "quit":
                     sys.exit()
-                else:
-                    call(["python", "PlayGame.py"])
-                    sys.exit()
+                elif self.function == "play":
+                    import PlayGame
                 self.clicked = True
             
             if pygame.mouse.get_pressed()[0] == 0 and self.clicked == True:

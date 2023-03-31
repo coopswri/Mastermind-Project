@@ -10,7 +10,7 @@ pygame.font.init()
 width = 1000
 height = 1050
 
-screen = pygame.display.set_mode((width, height))
+screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
 pygame.display.set_caption(" Mastermind")
 icon_for_screen = pygame.image.load("Assets\Images\Icon\Icon.png")
 pygame.display.set_icon(icon_for_screen)
@@ -603,22 +603,31 @@ while game_loop_running:
                         password_text = "Password"
             
             if event.type == pygame.KEYDOWN:
-                if username_active == True:
+                if event.key in [pygame.K_RETURN, pygame.K_TAB, pygame.K_ESCAPE, pygame.K_SPACE, pygame.K_LCTRL, pygame.K_RCTRL]:
+                    pass
+                elif username_active == True:
                     if event.key == pygame.K_BACKSPACE: 
                         username_text = username_text[:-1]
                     elif len(username_text) >= 20:
                         pass 
                     else:
-                        username_text += event.unicode
+                        if pygame.key.get_pressed()[pygame.K_RCTRL] or pygame.key.get_pressed()[pygame.K_LCTRL]:
+                            pass
+                        else:
+                            username_text += event.unicode
 
-                if password_active == True:
+                elif password_active == True:
                     if event.key == pygame.K_BACKSPACE: 
                         password_text = password_text[:-1]
                     elif len(password_text) >= 20:
                         pass     
                     else:
-                        password_text += event.unicode
-        
+                        if pygame.key.get_pressed()[pygame.K_RCTRL] or pygame.key.get_pressed()[pygame.K_LCTRL]:
+                            pass
+                        else:
+                            password_text += event.unicode
+                        
+
         if username_active == True:
             username_colour = textbox_colour_active
             password_colour = textbox_colour_passive
